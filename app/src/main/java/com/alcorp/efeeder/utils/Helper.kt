@@ -1,5 +1,9 @@
 package com.alcorp.efeeder.utils
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.os.Build
+
 fun setTimeFormat(hour: Int, minute: Int): String {
     val newHour: String = if (hour < 10) {
         "0$hour"
@@ -30,4 +34,15 @@ fun Int.setMinuteFormat(): String {
         this.toString()
     }
     return newMinute
+}
+
+fun checkNetwork(context: Context): Boolean{
+    val cm: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val network =
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            cm.getNetworkCapabilities(cm.activeNetwork)
+        } else {
+            cm.activeNetworkInfo
+        }
+    return network != null
 }

@@ -1,7 +1,6 @@
 package com.alcorp.efeeder.ui
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -11,12 +10,14 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.alcorp.efeeder.data.local.UserDao
-import com.alcorp.efeeder.data.local.UserRoomDatabase
 import com.alcorp.efeeder.databinding.ActivityLoginBinding
+import com.alcorp.efeeder.utils.LoadingDialog
 import com.alcorp.efeeder.utils.setTimeFormat
 import com.alcorp.efeeder.viewmodel.MainViewModel
 import com.alcorp.efeeder.viewmodel.ViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -25,10 +26,7 @@ import java.util.*
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var pref: SharedPreferences
-    private lateinit var prefEdit: SharedPreferences.Editor
-    private lateinit var database: UserRoomDatabase
-    private lateinit var dao: UserDao
+    private lateinit var auth: FirebaseAuth
 
     private val mainViewModel: MainViewModel by viewModels {
         ViewModelFactory.getInstance()
@@ -59,10 +57,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun init() {
-        database = UserRoomDatabase.getDatabase(applicationContext)
-        dao = database.getNoteDao()
-
-        pref = getSharedPreferences("prefApp", MODE_PRIVATE)
+        auth = Firebase.auth
 
         val calendar = Calendar.getInstance()
 
@@ -102,34 +97,39 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             binding.btnLogin -> {
+                val loadingDialog = LoadingDialog(this)
+                loadingDialog.showDialog()
+
                 val username = binding.edtUsernameLogin.text.toString()
                 val password = binding.edtPasswordLogin.text.toString()
 
                 if (username == "" || password == "") {
                     Toast.makeText(this, "Data tidak boleh kosong", Toast.LENGTH_SHORT).show()
                 } else {
-                    val check = dao.getById(username, password)
-                    if (check.isEmpty()) {
-                        Toast.makeText(this@LoginActivity, "Data tidak ada", Toast.LENGTH_SHORT).show()
-                    } else {
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-
-                        prefEdit = pref.edit()
-                        prefEdit.putString("username", username)
-                        prefEdit.apply()
-
-                        Toast.makeText(this@LoginActivity, "Berhasil login", Toast.LENGTH_SHORT).show()
-                    }
+                    auth.signInWithEmailAndPassword(username, password)
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful) {
+                                loadingDialog.hideDialog()
+                                auth.currentUser
+                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                                Toast.makeText(this@LoginActivity, "Berhasil login", Toast.LENGTH_SHORT).show()
+                            } else {
+                                loadingDialog.hideDialog()
+                                task.addOnFailureListener {
+                                    Toast.makeText(baseContext, it.message, Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
                 }
             }
         }
     }
 
     private fun checkLogin() {
-        val username = pref.getString("username", "")
-        if (username != "") {
+        val currentUser = auth.currentUser
+        if(currentUser != null) {
             val i = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(i)
             finish()

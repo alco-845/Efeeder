@@ -14,10 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.alcorp.efeeder.R
 import com.alcorp.efeeder.databinding.ActivityEfeedBinding
-import com.alcorp.efeeder.utils.LoadingDialog
-import com.alcorp.efeeder.utils.setHourFormat
-import com.alcorp.efeeder.utils.setMinuteFormat
-import com.alcorp.efeeder.utils.setTimeFormat
+import com.alcorp.efeeder.utils.*
 import com.alcorp.efeeder.viewmodel.EfeedViewModel
 import com.alcorp.efeeder.viewmodel.ViewModelFactory
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +27,7 @@ import java.util.*
 class EfeedActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityEfeedBinding
+    private lateinit var loadingDialog: LoadingDialog
     private val efeedViewModel: EfeedViewModel by viewModels {
         ViewModelFactory.getInstance()
     }
@@ -103,26 +101,31 @@ class EfeedActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar?.title = getString(R.string.toolbar_efeeder)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val loadingDialog = LoadingDialog(this)
+        loadingDialog = LoadingDialog(this)
 
         val calendar = Calendar.getInstance()
         hour = calendar[Calendar.HOUR_OF_DAY]
         minute = calendar[Calendar.MINUTE]
 
-        lifecycleScope.launch {
-            loadingDialog.showDialog()
-            delay(1000)
+        loadingDialog.showDialog()
+        if (checkNetwork(this)){
+            lifecycleScope.launch {
+                delay(1000)
 
-            withContext(Dispatchers.Main) {
-                setupViewText()
+                withContext(Dispatchers.Main) {
+                    setupViewText()
+                }
+                loadingDialog.hideDialog()
             }
+        } else {
             loadingDialog.hideDialog()
+            Toast.makeText(this, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show()
         }
-
         binding.edtWaktu1.setOnClickListener(this)
         binding.edtWaktu2.setOnClickListener(this)
         binding.edtWaktu3.setOnClickListener(this)
         binding.btnUbah.setOnClickListener(this)
+
     }
 
     override fun onClick(view: View) {
@@ -131,30 +134,37 @@ class EfeedActivity : AppCompatActivity(), View.OnClickListener {
             binding.edtWaktu2 -> showDialog(2)
             binding.edtWaktu3 -> showDialog(3)
             binding.btnUbah -> {
-                val berat1 = binding.edtBerat1.text.toString()
-                val berat2 = binding.edtBerat2.text.toString()
-                val berat3 = binding.edtBerat3.text.toString()
+                loadingDialog.showDialog()
+                if (checkNetwork(this)) {
+                    val berat1 = binding.edtBerat1.text.toString()
+                    val berat2 = binding.edtBerat2.text.toString()
+                    val berat3 = binding.edtBerat3.text.toString()
 
-                if (berat1 == "" || berat2 == "" || berat3 == "") {
-                    Toast.makeText(this, getString(R.string.toast_berat), Toast.LENGTH_SHORT).show()
-                } else {
-                    if ((berat1.toInt() > 10000 || berat1.toInt() < 0) || (berat2.toInt() > 10000 || berat2.toInt() < 0) || (berat3.toInt() > 10000 || berat3.toInt() < 0)) {
-                        Toast.makeText(this, getString(R.string.toast_warning_berat), Toast.LENGTH_SHORT).show()
+                    loadingDialog.hideDialog()
+                    if (berat1 == "" || berat2 == "" || berat3 == "") {
+                        Toast.makeText(this, getString(R.string.toast_berat), Toast.LENGTH_SHORT).show()
                     } else {
-                        efeedViewModel.setDataJam1(jam1)
-                        efeedViewModel.setDataJam2(jam2)
-                        efeedViewModel.setDataJam3(jam3)
+                        if ((berat1.toInt() > 10000 || berat1.toInt() < 0) || (berat2.toInt() > 10000 || berat2.toInt() < 0) || (berat3.toInt() > 10000 || berat3.toInt() < 0)) {
+                            Toast.makeText(this, getString(R.string.toast_warning_berat), Toast.LENGTH_SHORT).show()
+                        } else {
+                            efeedViewModel.setDataJam1(jam1)
+                            efeedViewModel.setDataJam2(jam2)
+                            efeedViewModel.setDataJam3(jam3)
 
-                        efeedViewModel.setDataMenit1(menit1)
-                        efeedViewModel.setDataMenit2(menit2)
-                        efeedViewModel.setDataMenit3(menit3)
+                            efeedViewModel.setDataMenit1(menit1)
+                            efeedViewModel.setDataMenit2(menit2)
+                            efeedViewModel.setDataMenit3(menit3)
 
-                        efeedViewModel.setDataBerat1(berat1.toInt())
-                        efeedViewModel.setDataBerat2(berat2.toInt())
-                        efeedViewModel.setDataBerat3(berat3.toInt())
+                            efeedViewModel.setDataBerat1(berat1.toInt())
+                            efeedViewModel.setDataBerat2(berat2.toInt())
+                            efeedViewModel.setDataBerat3(berat3.toInt())
 
-                        Toast.makeText(this, getString(R.string.toast_berhasil), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.toast_berhasil), Toast.LENGTH_SHORT).show()
+                        }
                     }
+                } else {
+                    loadingDialog.hideDialog()
+                    Toast.makeText(this, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show()
                 }
             }
         }

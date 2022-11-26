@@ -100,7 +100,7 @@
                 android:background="@color/white"
                 android:ems="10"
                 android:gravity="center"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 android:minHeight="48dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/textView3"

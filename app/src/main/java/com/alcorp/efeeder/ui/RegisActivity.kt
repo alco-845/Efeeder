@@ -10,13 +10,14 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.alcorp.efeeder.data.local.User
-import com.alcorp.efeeder.data.local.UserDao
-import com.alcorp.efeeder.data.local.UserRoomDatabase
 import com.alcorp.efeeder.databinding.ActivityRegisBinding
+import com.alcorp.efeeder.utils.LoadingDialog
 import com.alcorp.efeeder.utils.setTimeFormat
 import com.alcorp.efeeder.viewmodel.MainViewModel
 import com.alcorp.efeeder.viewmodel.ViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -25,8 +26,7 @@ import java.util.*
 class RegisActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityRegisBinding
-    private lateinit var database: UserRoomDatabase
-    private lateinit var dao: UserDao
+    private lateinit var auth: FirebaseAuth
 
     private val mainViewModel: MainViewModel by viewModels {
         ViewModelFactory.getInstance()
@@ -56,8 +56,7 @@ class RegisActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun init() {
-        database = UserRoomDatabase.getDatabase(applicationContext)
-        dao = database.getNoteDao()
+        auth = Firebase.auth
 
         val calendar = Calendar.getInstance()
 
@@ -97,6 +96,9 @@ class RegisActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             binding.btnRegis -> {
+                val loadingDialog = LoadingDialog(this)
+                loadingDialog.showDialog()
+
                 val username = binding.edtUsernameRegis.text.toString()
                 val password = binding.edtPasswordRegis.text.toString()
                 val konfPassword = binding.edtKonfPasswordRegis.text.toString()
@@ -107,15 +109,34 @@ class RegisActivity : AppCompatActivity(), View.OnClickListener {
                     if (password != konfPassword) {
                         Toast.makeText(this, "Password harus sama dengan konfirmasi password", Toast.LENGTH_SHORT).show()
                     } else {
-                        dao.insert(User(username = username, password = password))
-                        Toast.makeText(this@RegisActivity, "Berhasil menambah data", Toast.LENGTH_SHORT).show()
-
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        auth.createUserWithEmailAndPassword(username, password)
+                            .addOnCompleteListener(this) { task ->
+                                if (task.isSuccessful) {
+                                    loadingDialog.hideDialog()
+                                    Toast.makeText(this@RegisActivity, "Berhasil registrasi", Toast.LENGTH_SHORT).show()
+                                    val intent = Intent(this, LoginActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                } else {
+                                    loadingDialog.hideDialog()
+                                    task.addOnFailureListener {
+                                        Toast.makeText(baseContext, it.message, Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
                     }
                 }
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if(currentUser != null) {
+            val i = Intent(this@RegisActivity, MainActivity::class.java)
+            startActivity(i)
+            finish()
         }
     }
 

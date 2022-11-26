@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/circular_progress_bar.xml" value="0.1735" />
+        <entry key="app/src/main/res/drawable/circular_shape.xml" value="0.1735" />
         <entry key="app/src/main/res/layout/activity_berat.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_bobot.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_efeed.xml" value="0.25" />

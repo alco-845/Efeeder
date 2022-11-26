@@ -1,15 +1,19 @@
 package com.alcorp.efeeder.ui
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.alcorp.efeeder.R
 import com.alcorp.efeeder.databinding.ActivityMonitoringBinding
 import com.alcorp.efeeder.utils.LoadingDialog
+import com.alcorp.efeeder.utils.checkNetwork
 import com.alcorp.efeeder.utils.setTimeFormat
 import com.alcorp.efeeder.viewmodel.MonitoringViewModel
 import com.alcorp.efeeder.viewmodel.ViewModelFactory
@@ -65,19 +69,28 @@ class MonitoringActivity : AppCompatActivity() {
 
         val loadingDialog = LoadingDialog(this)
 
-        lifecycleScope.launch {
-            loadingDialog.showDialog()
-            delay(1000)
+        loadingDialog.showDialog()
+        if (checkNetwork(this)){
+            lifecycleScope.launch {
+                delay(1000)
 
-            withContext(Dispatchers.Main) {
-                setupViewText()
-                loadingDialog.hideDialog()
+                withContext(Dispatchers.Main) {
+                    setupViewText()
+                    loadingDialog.hideDialog()
+                }
             }
+        } else {
+            loadingDialog.hideDialog()
+            Toast.makeText(this, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show()
         }
 
         binding.swSuhu.setOnCheckedChangeListener { _, isChecked ->
-            val data = if (isChecked) 1 else 0
-            monitoringViewModel.setDataSwitch(data)
+            if (checkNetwork(this)) {
+                val data = if (isChecked) 1 else 0
+                monitoringViewModel.setDataSwitch(data)
+            } else {
+                Toast.makeText(this, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

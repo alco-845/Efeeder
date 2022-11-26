@@ -1,18 +1,21 @@
 package com.alcorp.efeeder.ui
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.alcorp.efeeder.databinding.ActivityMainBinding
+import com.alcorp.efeeder.utils.checkNetwork
 import com.alcorp.efeeder.utils.setTimeFormat
 import com.alcorp.efeeder.viewmodel.MainViewModel
 import com.alcorp.efeeder.viewmodel.ViewModelFactory
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -21,9 +24,6 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var pref: SharedPreferences
-    private lateinit var prefEdit: SharedPreferences.Editor
-    private lateinit var username: String
 
     private val mainViewModel: MainViewModel by viewModels {
         ViewModelFactory.getInstance()
@@ -54,7 +54,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkLogin() {
-        if (username == "") {
+        val currentUser = Firebase.auth.currentUser
+        if (currentUser == null){
             val i = Intent(this@MainActivity, LoginActivity::class.java)
             startActivity(i)
             finish()
@@ -62,9 +63,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        pref = getSharedPreferences("prefApp", MODE_PRIVATE)
-        username = pref.getString("username", "").toString()
-
         val calendar = Calendar.getInstance()
 
         val getMonth = SimpleDateFormat("MMMM")
@@ -89,6 +87,10 @@ class MainActivity : AppCompatActivity() {
                 delay(2500)
             }
         }
+
+        if (!checkNetwork(this)) {
+            Toast.makeText(this, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupAction() {
@@ -106,8 +108,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logOut() {
-        prefEdit = pref.edit()
-        prefEdit.clear().apply()
+        Firebase.auth.signOut()
 
         val i = Intent(this@MainActivity, LoginActivity::class.java)
         startActivity(i)

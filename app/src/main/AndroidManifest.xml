@@ -13,22 +13,22 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Kolamin"
+        android:theme="@style/Theme.Efeeder"
         tools:targetApi="31">
         <activity
-            android:name="com.alcorp.efeeder.ui.LoginActivity"
+            android:name=".ui.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.alcorp.efeeder.ui.RegisActivity"
+            android:name=".ui.RegisActivity"
             android:exported="false" />
         <activity
-            android:name="com.alcorp.efeeder.ui.EfeedActivity"
+            android:name=".ui.EfeedActivity"
             android:exported="false" />
         <activity
-            android:name="com.alcorp.efeeder.ui.MonitoringActivity"
+            android:name=".ui.MonitoringActivity"
             android:exported="false" />
         <activity
-            android:name="com.alcorp.efeeder.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -8,11 +8,11 @@
     <string name="menu_efeeder">EFeeder</string>
 
     <string name="title_suhu_air">Suhu Air</string>
-    <string name="value_suhu_air">22 ° C</string>
+    <string name="value_suhu_air">0 ° C</string>
     <string name="title_oxygen">Dissolved\nOxygen</string>
-    <string name="value_oxygen">5.0 PPM</string>
+    <string name="value_oxygen">0 PPM</string>
     <string name="title_ph_air">PH Air</string>
-    <string name="value_ph_air">6,5</string>
+    <string name="value_ph_air">0</string>
     <string name="txt_auto">Otomasi \nair</string>
     <string name="txt_status_on">On</string>
     <string name="txt_status_off">Off</string>
@@ -27,7 +27,7 @@
     <string name="txt_waktu">Waktu</string>
     <string name="btn_reset">Reset</string>
     <string name="btn_ubah">Ubah</string>
-    <string name="txt_persen">50%</string>
+    <string name="txt_persen">0%</string>
     <string name="txt_jumlah_pakan">Jumlah \nPakan</string>
 
     <string name="txt_batas_suhu">Batas \nSuhu</string>
@@ -38,7 +38,7 @@
 
     <string name="txt_loading">Loading…</string>
 
-    <string name="txt_username">Username</string>
+    <string name="txt_username">Email</string>
     <string name="txt_password">Password</string>
     <string name="txt_login">Login</string>
     <string name="txt_registrasi">Registrasi</string>
