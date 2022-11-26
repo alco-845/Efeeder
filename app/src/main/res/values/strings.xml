@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">EFeeder</string>
+
+    <!--    View-->
+    <string name="selamat_datang">Selamat Datang</string>
+    <string name="menu_monitoring_kolam">Monitoring \nKolam</string>
+    <string name="menu_bobot">Monitoring Bobot</string>
+    <string name="menu_efeeder">EFeeder</string>
+
+    <string name="title_suhu_air">Suhu Air</string>
+    <string name="value_suhu_air">22 ° C</string>
+    <string name="title_oxygen">Dissolved\nOxygen</string>
+    <string name="value_oxygen">5.0 PPM</string>
+    <string name="title_ph_air">PH Air</string>
+    <string name="value_ph_air">6,5</string>
+    <string name="txt_auto">Otomasi \nair</string>
+    <string name="txt_status_on">On</string>
+    <string name="txt_status_off">Off</string>
+
+    <string name="edt_waktu_1">Waktu 1</string>
+    <string name="edt_waktu_2">Waktu 2</string>
+    <string name="edt_waktu_3">Waktu 3</string>
+    <string name="edt_berat_1">Berat 1</string>
+    <string name="edt_berat_2">Berat 2</string>
+    <string name="edt_berat_3">Berat 3</string>
+    <string name="txt_ukuran">Ukuran</string>
+    <string name="txt_waktu">Waktu</string>
+    <string name="btn_reset">Reset</string>
+    <string name="btn_ubah">Ubah</string>
+    <string name="txt_persen">50%</string>
+    <string name="txt_jumlah_pakan">Jumlah \nPakan</string>
+
+    <string name="txt_batas_suhu">Batas \nSuhu</string>
+    <string name="txt_0">0</string>
+    <string name="txt_batas_kapasitas">Batas \nKapasitas</string>
+    <string name="txt_kapasitas">Kapasitas</string>
+    <string name="txt_berat_timbangan">Berat \nTimbangan</string>
+
+    <string name="txt_loading">Loading…</string>
+
+    <string name="txt_username">Username</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_login">Login</string>
+    <string name="txt_registrasi">Registrasi</string>
+    <string name="txt_konfirmasi_password">Konfirmasi Password</string>
+    <string name="txt_halaman_login">Halaman Login</string>
+    <!--    End of View-->
+
+    <!--    Toolbar-->
+    <string name="toolbar_monitoring">Monitoring Kolam</string>
+    <string name="toolbar_bobot">Monitoring Bobot</string>
+    <string name="toolbar_efeeder">EFeeder</string>
+
+    <string name="txt_tanggal">Jumat 17 april 2022</string>
+    <string name="txt_jam">07:00</string>
+    <!--    End of Toolbar-->
+
+    <!--    Toast-->
+    <string name="toast_berat">Berat tidak boleh kosong</string>
+    <string name="toast_batas_suhu">Batas suhu tidak boleh kosong</string>
+    <string name="toast_batas_kapasitas">Batas kapasitas tidak boleh kosong</string>
+    <string name="toast_berhasil">Data berhasil diubah</string>
+    <string name="toast_warning_batas_kapasitas">Batas kapasitas harus diantara 0 sampai 100</string>
+    <string name="toast_warning_batas_suhu">Batas suhu harus diantara -55 sampai 125</string>
+    <string name="toast_warning_berat">Berat harus diantara 0 sampai 10000</string>
+    <!--    End of Toast-->
+</resources>
