@@ -84,17 +84,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        binding.btnRegis.setOnClickListener(this)
         binding.btnLogin.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
         when (view) {
-            binding.btnRegis -> {
-                val intent = Intent(this, RegisActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
 
             binding.btnLogin -> {
                 val loadingDialog = LoadingDialog(this)

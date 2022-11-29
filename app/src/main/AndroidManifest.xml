@@ -19,9 +19,6 @@
             android:name=".ui.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.RegisActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.EfeedActivity"
             android:exported="false" />
         <activity
