@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "680824754457",
+    "project_id": "efeeder-73186",
+    "storage_bucket": "efeeder-73186.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680824754457:android:7807aeb0d61335ff1a3588",
+        "android_client_info": {
+          "package_name": "com.alcorp.efeeder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680824754457-oubnagfhatkg9q7cph1d4907b1tggmpe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alcorp.efeeder",
+            "certificate_hash": "98ca71636579565aef1bab45decc71ffbb4d0abf"
+          }
+        },
+        {
+          "client_id": "680824754457-rm20k09vfmhc3de043et7fm0e97n4bem.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSg6Z-ndWiNU8Kaf9hgUilVR-hvoGjRj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680824754457-rm20k09vfmhc3de043et7fm0e97n4bem.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

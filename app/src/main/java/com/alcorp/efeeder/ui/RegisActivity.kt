@@ -2,15 +2,15 @@ package com.alcorp.efeeder.ui
 
 import android.content.Intent
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.alcorp.efeeder.databinding.ActivityLoginBinding
+import com.alcorp.efeeder.databinding.ActivityRegisBinding
 import com.alcorp.efeeder.utils.LoadingDialog
 import com.alcorp.efeeder.utils.setTimeFormat
 import com.alcorp.efeeder.viewmodel.MainViewModel
@@ -23,9 +23,8 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener {
-
-    private lateinit var binding: ActivityLoginBinding
+class RegisActivity : AppCompatActivity(), View.OnClickListener {
+    private lateinit var binding: ActivityRegisBinding
     private lateinit var auth: FirebaseAuth
 
     private val mainViewModel: MainViewModel by viewModels {
@@ -34,7 +33,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityRegisBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
@@ -74,8 +73,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         lifecycleScope.launch {
             while(true) {
-                mainViewModel.getHour().observe(this@LoginActivity) { hour ->
-                    mainViewModel.getMinute().observe(this@LoginActivity) { minute ->
+                mainViewModel.getHour().observe(this@RegisActivity) { hour ->
+                    mainViewModel.getMinute().observe(this@RegisActivity) { minute ->
                         binding.tvJam.text = setTimeFormat(hour, minute)
                     }
                 }
@@ -85,50 +84,48 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.btnLogin.setOnClickListener(this)
         binding.btnRegis.setOnClickListener(this)
-        binding.btnReset.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
         when (view) {
-            binding.btnRegis -> {
-                val intent = Intent(this, RegisActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-
-            binding.btnReset -> {
-                val intent = Intent(this, ResetPasswordActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-
             binding.btnLogin -> {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            binding.btnRegis -> {
                 val loadingDialog = LoadingDialog(this)
                 loadingDialog.showDialog()
 
-                val username = binding.edtUsernameLogin.text.toString()
-                val password = binding.edtPasswordLogin.text.toString()
+                val username = binding.edtUsernameRegis.text.toString()
+                val password = binding.edtPasswordRegis.text.toString()
+                val konfPassword = binding.edtKonfPasswordRegis.text.toString()
 
-                if (username == "" || password == "") {
+                if (username == "" || password == "" || konfPassword == "") {
                     loadingDialog.hideDialog()
                     Toast.makeText(this, "Kolom tidak boleh kosong", Toast.LENGTH_SHORT).show()
                 } else {
-                    auth.signInWithEmailAndPassword(username, password)
-                        .addOnCompleteListener(this) { task ->
-                            if (task.isSuccessful) {
-                                loadingDialog.hideDialog()
-                                auth.currentUser
-                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                                Toast.makeText(this@LoginActivity, "Berhasil login", Toast.LENGTH_SHORT).show()
-                            } else {
-                                loadingDialog.hideDialog()
-                                task.addOnFailureListener {
-                                    Toast.makeText(baseContext, it.message, Toast.LENGTH_SHORT).show()
+                    if (password != konfPassword) {
+                        loadingDialog.hideDialog()
+                        Toast.makeText(this, "Password harus sama dengan konfirmasi password", Toast.LENGTH_SHORT).show()
+                    } else {
+                        auth.createUserWithEmailAndPassword(username, password)
+                            .addOnCompleteListener(this) { task ->
+                                if (task.isSuccessful) {
+                                    loadingDialog.hideDialog()
+                                    Toast.makeText(this@RegisActivity, "Berhasil registrasi", Toast.LENGTH_SHORT).show()
+                                    val intent = Intent(this, LoginActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                } else {
+                                    loadingDialog.hideDialog()
+                                    task.addOnFailureListener {
+                                        Toast.makeText(baseContext, it.message, Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             }
-                        }
+                    }
                 }
             }
         }
@@ -138,9 +135,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         super.onStart()
         val currentUser = auth.currentUser
         if(currentUser != null) {
-            val i = Intent(this@LoginActivity, MainActivity::class.java)
+            val i = Intent(this@RegisActivity, MainActivity::class.java)
             startActivity(i)
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

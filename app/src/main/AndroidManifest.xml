@@ -16,6 +16,12 @@
         android:theme="@style/Theme.Efeeder"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.RegisActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.LoginActivity"
             android:exported="false" />
         <activity
