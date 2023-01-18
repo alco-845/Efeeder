@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "680824754457",
-    "project_id": "efeeder-73186",
-    "storage_bucket": "efeeder-73186.appspot.com"
+    "project_number": "101913925034",
+    "project_id": "efeeder-f50ab",
+    "storage_bucket": "efeeder-f50ab.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:680824754457:android:7807aeb0d61335ff1a3588",
+        "mobilesdk_app_id": "1:101913925034:android:a1bdba04ce85e5140887d3",
         "android_client_info": {
           "package_name": "com.alcorp.efeeder"
         }
       },
       "oauth_client": [
         {
-          "client_id": "680824754457-oubnagfhatkg9q7cph1d4907b1tggmpe.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.alcorp.efeeder",
-            "certificate_hash": "98ca71636579565aef1bab45decc71ffbb4d0abf"
-          }
-        },
-        {
-          "client_id": "680824754457-rm20k09vfmhc3de043et7fm0e97n4bem.apps.googleusercontent.com",
+          "client_id": "101913925034-gcguobnktf21ag78h3pta2ns82mb2j80.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBSg6Z-ndWiNU8Kaf9hgUilVR-hvoGjRj0"
+          "current_key": "AIzaSyCL_zngRgtjBB785JU5PMajFmhIzmUe4DE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "680824754457-rm20k09vfmhc3de043et7fm0e97n4bem.apps.googleusercontent.com",
+              "client_id": "101913925034-gcguobnktf21ag78h3pta2ns82mb2j80.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
