@@ -135,19 +135,28 @@
                         app:layout_constraintStart_toStartOf="@+id/edtUsernameRegis"
                         app:layout_constraintTop_toBottomOf="@+id/edtUsernameRegis" />
 
-                    <EditText
-                        android:id="@+id/edtPasswordRegis"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/inpPasswordRegis"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:ems="10"
-                        android:gravity="center"
-                        android:inputType="textPassword"
-                        android:minHeight="48dp"
-                        android:padding="8dp"
                         app:layout_constraintEnd_toEndOf="@+id/textView"
                         app:layout_constraintStart_toStartOf="@+id/textView"
-                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:passwordToggleEnabled="true">
+
+                        <EditText
+                            android:id="@+id/edtPasswordRegis"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="textPassword"
+                            android:minHeight="48dp"
+                            android:padding="8dp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
                         android:id="@+id/textView1"
@@ -158,23 +167,32 @@
                         android:text="@string/txt_konfirmasi_password"
                         android:textSize="40sp"
                         android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="@+id/edtPasswordRegis"
-                        app:layout_constraintStart_toStartOf="@+id/edtPasswordRegis"
-                        app:layout_constraintTop_toBottomOf="@+id/edtPasswordRegis" />
+                        app:layout_constraintEnd_toEndOf="@+id/inpPasswordRegis"
+                        app:layout_constraintStart_toStartOf="@+id/inpPasswordRegis"
+                        app:layout_constraintTop_toBottomOf="@+id/inpPasswordRegis" />
 
-                    <EditText
-                        android:id="@+id/edtKonfPasswordRegis"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/inpKonfPasswordRegis"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:ems="10"
-                        android:gravity="center"
-                        android:inputType="textPassword"
-                        android:minHeight="48dp"
-                        android:padding="8dp"
                         app:layout_constraintEnd_toEndOf="@+id/textView1"
                         app:layout_constraintStart_toStartOf="@+id/textView1"
-                        app:layout_constraintTop_toBottomOf="@+id/textView1" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView1"
+                        app:passwordToggleEnabled="true">
+
+                        <EditText
+                            android:id="@+id/edtKonfPasswordRegis"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="textPassword"
+                            android:minHeight="48dp"
+                            android:padding="8dp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
                         android:id="@+id/btnRegis"
@@ -183,9 +201,9 @@
                         android:layout_marginTop="24dp"
                         android:text="@string/txt_registrasi"
                         android:textAllCaps="false"
-                        app:layout_constraintEnd_toEndOf="@+id/edtKonfPasswordRegis"
-                        app:layout_constraintStart_toStartOf="@+id/edtKonfPasswordRegis"
-                        app:layout_constraintTop_toBottomOf="@+id/edtKonfPasswordRegis" />
+                        app:layout_constraintEnd_toEndOf="@+id/inpKonfPasswordRegis"
+                        app:layout_constraintStart_toStartOf="@+id/inpKonfPasswordRegis"
+                        app:layout_constraintTop_toBottomOf="@+id/inpKonfPasswordRegis" />
 
                     <Button
                         android:id="@+id/btnLogin"

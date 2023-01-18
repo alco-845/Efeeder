@@ -2,13 +2,13 @@ package com.alcorp.efeeder.ui
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.alcorp.efeeder.databinding.ActivityRegisBinding
 import com.alcorp.efeeder.utils.LoadingDialog
@@ -39,6 +39,7 @@ class RegisActivity : AppCompatActivity(), View.OnClickListener {
 
         setupToolbar()
         init()
+        checkLogin()
     }
 
     private fun setupToolbar() {
@@ -131,8 +132,7 @@ class RegisActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun checkLogin() {
         val currentUser = auth.currentUser
         if(currentUser != null) {
             val i = Intent(this@RegisActivity, MainActivity::class.java)

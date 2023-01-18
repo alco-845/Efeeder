@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         setupToolbar()
         init()
+        checkLogin()
     }
 
     private fun setupToolbar() {
@@ -134,8 +135,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun checkLogin() {
         val currentUser = auth.currentUser
         if(currentUser != null) {
             val i = Intent(this@LoginActivity, MainActivity::class.java)
