@@ -17,10 +17,9 @@ import com.alcorp.efeeder.databinding.ActivityEfeedBinding
 import com.alcorp.efeeder.utils.*
 import com.alcorp.efeeder.viewmodel.EfeedViewModel
 import com.alcorp.efeeder.viewmodel.ViewModelFactory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -111,11 +110,11 @@ class EfeedActivity : AppCompatActivity(), View.OnClickListener {
         if (checkNetwork(this)){
             lifecycleScope.launch {
                 delay(1000)
-
-                withContext(Dispatchers.Main) {
+                while(isActive) {
                     setupViewText()
+                    loadingDialog.hideDialog()
+                    delay(1000)
                 }
-                loadingDialog.hideDialog()
             }
         } else {
             loadingDialog.hideDialog()
@@ -227,7 +226,7 @@ class EfeedActivity : AppCompatActivity(), View.OnClickListener {
                         binding.tvJam.text = setTimeFormat(hour, minute)
                     }
                 }
-                delay(2500)
+                delay(1000)
             }
         }
     }

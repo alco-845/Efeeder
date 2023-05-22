@@ -15,10 +15,9 @@ import com.alcorp.efeeder.utils.checkNetwork
 import com.alcorp.efeeder.utils.setTimeFormat
 import com.alcorp.efeeder.viewmodel.MonitoringViewModel
 import com.alcorp.efeeder.viewmodel.ViewModelFactory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -71,10 +70,10 @@ class MonitoringActivity : AppCompatActivity() {
         if (checkNetwork(this)){
             lifecycleScope.launch {
                 delay(1000)
-
-                withContext(Dispatchers.Main) {
+                while(isActive) {
                     setupViewText()
                     loadingDialog.hideDialog()
+                    delay(1000)
                 }
             }
         } else {
@@ -116,7 +115,7 @@ class MonitoringActivity : AppCompatActivity() {
                         binding.tvJam.text = setTimeFormat(hour, minute)
                     }
                 }
-                delay(2500)
+                delay(1000)
             }
         }
     }

@@ -79,7 +79,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                         binding.tvJam.text = setTimeFormat(hour, minute)
                     }
                 }
-                delay(2500)
+                delay(1000)
             }
         }
 
