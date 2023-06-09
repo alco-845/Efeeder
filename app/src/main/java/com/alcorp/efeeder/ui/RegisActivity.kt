@@ -133,8 +133,15 @@ class RegisActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun checkLogin() {
+        val pref = getSharedPreferences("efeeder", MODE_PRIVATE)
+        val tamu = pref.getString("tamu", "")
+
         val currentUser = auth.currentUser
-        if(currentUser != null) {
+        if (tamu != null && tamu != "")  {
+            val i = Intent(this@RegisActivity, MainActivity::class.java)
+            startActivity(i)
+            finish()
+        }  else if (currentUser != null) {
             val i = Intent(this@RegisActivity, MainActivity::class.java)
             startActivity(i)
             finish()

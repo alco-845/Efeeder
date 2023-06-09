@@ -1,6 +1,7 @@
 package com.alcorp.efeeder.ui
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
@@ -24,6 +25,8 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var pref: SharedPreferences
+    private lateinit var prefEdit: SharedPreferences.Editor
 
     private val mainViewModel: MainViewModel by viewModels {
         ViewModelFactory.getInstance()
@@ -37,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         setupToolbar()
         setupAction()
         init()
-        checkLogin()
+//        checkLogin()
     }
 
     private fun setupToolbar() {
@@ -53,16 +56,22 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun checkLogin() {
-        val currentUser = Firebase.auth.currentUser
-        if (currentUser == null){
-            val i = Intent(this@MainActivity, LoginActivity::class.java)
-            startActivity(i)
-            finish()
-        }
-    }
+//    private fun checkLogin() {
+//        val currentUser = Firebase.auth.currentUser
+//        if (tamu == null && tamu == "")  {
+//            val i = Intent(this@MainActivity, LoginActivity::class.java)
+//            startActivity(i)
+//            finish()
+//        } else if (currentUser == null){
+//            val i = Intent(this@MainActivity, LoginActivity::class.java)
+//            startActivity(i)
+//            finish()
+//        }
+//    }
 
     private fun init() {
+        pref = getSharedPreferences("efeeder", MODE_PRIVATE)
+
         val calendar = Calendar.getInstance()
 
         val getMonth = SimpleDateFormat("MMMM")
@@ -109,6 +118,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun logOut() {
         Firebase.auth.signOut()
+        prefEdit = pref.edit()
+        prefEdit.clear().apply()
 
         val i = Intent(this@MainActivity, LoginActivity::class.java)
         startActivity(i)

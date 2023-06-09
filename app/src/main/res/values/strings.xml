@@ -45,6 +45,7 @@
     <string name="txt_reset_password">Reset Password</string>
     <string name="txt_konfirmasi_password">Konfirmasi Password</string>
     <string name="txt_halaman_login">Halaman Login</string>
+    <string name="txt_login_sebagai_tamu">Login sebagai tamu</string>
     <!--    End of View-->
 
     <!--    Toolbar-->
